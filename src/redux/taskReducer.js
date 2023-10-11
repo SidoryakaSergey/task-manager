@@ -6,7 +6,6 @@ const initialState = {
 };
 
 export default function taskReducer(state = initialState, action) {
-  console.log('action: ', action);
   switch (action.type) {
     case 'ADD_TASK': {
       return {

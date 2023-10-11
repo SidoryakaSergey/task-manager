@@ -7,8 +7,3 @@ export const delTask = payload => ({
   type: 'DEL_TASK',
   payload,
 });
-
-// export const toggleTodo = id => ({
-//   type: 'TOGGLE_TODO',
-//   id,
-// });

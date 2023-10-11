@@ -1,16 +1,15 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 import {
   CheckCircleIcon,
-  XCircleIcon,
   PencilIcon,
   TrashIcon,
+  XCircleIcon,
 } from '@heroicons/react/24/outline';
-import TaskProps from '../../types/TaskProps';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+
 import { useDispatch } from 'react-redux';
 import { delTask } from '../../redux/actions';
 
