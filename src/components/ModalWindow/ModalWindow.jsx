@@ -33,14 +33,11 @@ export default function ModalWindow(props) {
   const task = useSelector(state =>
     state.tasks.find(task => task.id === taskID)
   );
-  // console.log('task: ', task);
 
   const [formState, setFormState] = useState(() => {
     if (task) {
-      // console.log('1');
       return task;
     } else {
-      // console.log('2');
       return initialFormState;
     }
   });
