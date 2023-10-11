@@ -1,7 +1,6 @@
 const initialState = {
   tasks: [
-    { id: 2, taskName: 'Vasa', taskDesc: 'tra la la', taskComplete: true },
-    { id: 1, taskName: 'Petya', taskDesc: 'BUBUB', taskComplete: false },
+    { id: 2, taskName: 'Task manager', taskDesc: '', taskComplete: true },
   ],
 };
 
