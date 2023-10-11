@@ -4,17 +4,18 @@ import { Button, Container } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import ModalWindow from './components/ModalWindow/ModalWindow';
 import TaskItem from './components/TaskItem/TaskItem';
-``;
 
 export default function App() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const tasks = useSelector(state => state.tasks);
+  const [editingTaskID, setEditingID] = useState(null);
 
   const openModal = () => {
     setIsOpen(true);
   };
 
   const closeModal = () => {
+    setEditingID(null);
     setIsOpen(false);
   };
 
@@ -27,13 +28,23 @@ export default function App() {
         Add Task
       </Button>
       {tasks.map(task => (
-        <TaskItem key={task.id} {...task} />
+        <TaskItem
+          onEditClick={id => {
+            setEditingID(id);
+            setIsOpen(true);
+          }}
+          key={task.id}
+          {...task}
+        />
       ))}
-      <ModalWindow
-        isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-      />
+      {modalIsOpen && (
+        <ModalWindow
+          taskID={editingTaskID}
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+        />
+      )}
     </Container>
   );
 }

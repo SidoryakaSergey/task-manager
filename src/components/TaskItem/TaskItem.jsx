@@ -11,7 +11,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
 import { useDispatch } from 'react-redux';
-import { delTask } from '../../redux/actions';
+import { delTask, toggleTask } from '../../redux/actions';
 
 const iconStyle = {
   width: '1.5rem',
@@ -19,8 +19,12 @@ const iconStyle = {
 };
 
 function TaskItem(props) {
-  const { taskName, taskDesc, taskComplete, id } = props;
+  const { taskName, taskDesc, taskComplete, id, onEditClick } = props;
   const dispatch = useDispatch();
+
+  const handleToggle = () => {
+    dispatch(toggleTask({ id }));
+  };
 
   const handleDeleteTask = () => {
     dispatch(delTask({ id }));
@@ -31,20 +35,41 @@ function TaskItem(props) {
       <Row className="justify-content-between align-items-center m-2">
         <Col>
           {taskComplete ? (
-            <Button variant="success">
+            <Button onClick={handleToggle} variant="success">
               <CheckCircleIcon style={iconStyle} />
             </Button>
           ) : (
-            <Button variant="danger">
+            <Button onClick={handleToggle} variant="danger">
               <XCircleIcon style={iconStyle} />
             </Button>
           )}
         </Col>
-        <Col>{taskName}</Col>
-        <Col>{taskDesc}</Col>
+        <Col>
+          <div
+            style={{
+              textDecoration: taskComplete ? 'line-through' : 'none',
+            }}
+          >
+            {taskName}
+          </div>
+        </Col>
+        <Col>
+          <div
+            style={{
+              textDecoration: taskComplete ? 'line-through' : 'none',
+            }}
+          >
+            {taskDesc}
+          </div>
+        </Col>
 
         <Col className="d-flex justify-content-end gap-1">
-          <Button variant="primary">
+          <Button
+            onClick={() => {
+              onEditClick(id);
+            }}
+            variant="primary"
+          >
             <PencilIcon style={iconStyle} />
           </Button>
           <Button onClick={handleDeleteTask} variant="danger">

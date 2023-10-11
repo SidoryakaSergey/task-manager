@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import Modal from 'react-modal';
-import { useDispatch } from 'react-redux';
-import { addTask } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTask, editTask } from '../../redux/actions';
 
 const customStyles = {
   content: {
@@ -26,17 +26,35 @@ const initialErrors = {
 };
 
 export default function ModalWindow(props) {
-  const { isOpen, onAfterOpen, onRequestClose } = props;
-
-  const [formState, setFormState] = useState(initialFormState);
+  const { isOpen, onAfterOpen, onRequestClose, taskID } = props;
 
   const [errors, setErrors] = useState(initialErrors);
 
+  const task = useSelector(state =>
+    state.tasks.find(task => task.id === taskID)
+  );
+  // console.log('task: ', task);
+
+  const [formState, setFormState] = useState(() => {
+    if (task) {
+      // console.log('1');
+      return task;
+    } else {
+      // console.log('2');
+      return initialFormState;
+    }
+  });
+
   const dispatch = useDispatch();
+
+  const handleEditTask = () => {
+    dispatch(editTask(formState));
+  };
 
   const handleAddTask = () => {
     dispatch(addTask(formState));
   };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -55,14 +73,14 @@ export default function ModalWindow(props) {
               if (isValid) {
                 setErrors(initialErrors);
                 setFormState(initialFormState);
-                handleAddTask();
+                taskID ? handleEditTask() : handleAddTask();
                 onRequestClose();
               } else {
                 setErrors({ taskName: true });
               }
             }}
           >
-            ADD
+            {taskID ? 'SAVE' : 'ADD'}
           </Button>
           <Button
             variant="danger"
@@ -94,7 +112,7 @@ export default function ModalWindow(props) {
                     setErrors({ taskName: true });
                   }
                 }}
-                value={formState.nameTask}
+                value={formState.taskName}
                 type="text"
                 id="inputName"
                 isInvalid={errors.taskName}
@@ -114,7 +132,7 @@ export default function ModalWindow(props) {
                 taskDesc: event.target.value,
               }));
             }}
-            value={formState.nameDesc}
+            value={formState.taskDesc}
             type="text"
             id="inputDesc"
           />
